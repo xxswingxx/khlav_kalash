@@ -1,0 +1,25 @@
+%p#notice= notice
+%p
+  %strong Amount cents:
+  = @order.amount_cents
+%p
+  %strong First name:
+  = @order.first_name
+%p
+  %strong Last name:
+  = @order.last_name
+%p
+  %strong Country:
+  = @order.country
+%p
+  %strong Email address:
+  = @order.email_address
+%p
+  %strong Number:
+  = @order.number
+%p
+  %strong Permalink:
+  = @order.permalink
+= link_to 'Edit', edit_order_path(@order)
+|
+= link_to 'Back', orders_path

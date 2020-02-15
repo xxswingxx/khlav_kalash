@@ -1,0 +1,40 @@
+= form_with(model: order, local: true) do |form|
+  - if order.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(order.errors.count, "error")
+        prohibited this order from being saved:
+      %ul
+        - order.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = form.label :first_name
+    = form.text_field :first_name
+  .field
+    = form.label :last_name
+    = form.text_field :last_name
+  .field
+    = form.label :street_line_1
+    = form.text_field :street_line_1
+  .field
+    = form.label :street_line_2
+    = form.text_field :street_line_2
+  .field
+    = form.label :postal_ccode
+    = form.text_field :postal_code
+  .field
+    = form.label :city
+    = form.text_field :city
+  .field
+    = form.label :region
+    = form.text_field :region
+  .field
+    = form.label :country
+    = form.country_select :country
+  .field
+    = form.label :email_address
+    = form.text_field :email_address
+
+  .actions
+    = form.submit "Pay #{@order.price.format}"

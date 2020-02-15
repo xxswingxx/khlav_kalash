@@ -1,0 +1,38 @@
+%p#notice= notice
+%p
+  %strong Number:
+  = @order.number
+%p
+  %strong Amount paid:
+  = Money.new(@order.amount_cents, Order::CURRENCY).format
+%p
+  %strong First name:
+  = @order.first_name
+%p
+  %strong Last name:
+  = @order.last_name
+%p
+  %strong Street Line 1:
+  = @order.street_line_1
+%p
+  %strong Street Line 2:
+  = @order.street_line_2
+%p
+  %strong Postal Code/Zip:
+  = @order.postal_code
+%p
+  %strong City:
+  = @order.city
+%p
+  %strong Region:
+  = @order.region
+%p
+  %strong Country:
+  = @order.country
+%p
+  %strong Email address:
+  = @order.email_address
+
+= link_to 'New order', root_path
+
+
