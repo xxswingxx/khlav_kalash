@@ -1,4 +1,4 @@
-= form_with(model: order, local: true) do |form|
+= form_with(model: order, local: true, id: "payment-form", data: { secret: @intent.client_secret }) do |form|
   - if order.errors.any?
     #error_explanation
       %h2
@@ -21,7 +21,7 @@
     = form.label :street_line_2
     = form.text_field :street_line_2
   .field
-    = form.label :postal_ccode
+    = form.label :postal_code
     = form.text_field :postal_code
   .field
     = form.label :city
@@ -35,6 +35,10 @@
   .field
     = form.label :email_address
     = form.text_field :email_address
-
+  .field
+    %label{for: "card-element"} Card number
+    #card-element
+    #card-errors
+  
   .actions
     = form.submit "Pay #{@order.price.format}"

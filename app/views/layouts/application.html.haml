@@ -6,6 +6,7 @@
     = csrf_meta_tags
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'https://js.stripe.com/v3/', 'data-turbolinks-track': 'reload'
+    = tag :meta, name: 'stripe-public-key', content: Rails.application.credentials.stripe[:publishable_key]
   %body
     = yield
