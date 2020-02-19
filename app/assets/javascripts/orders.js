@@ -1,6 +1,12 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 document.addEventListener("turbolinks:load", function() {
+  
+  // Early exit if the Stripe card Element is not present
+  if (document.getElementById("card-element") == null) {
+   return false;
+  }
+
   var public_key = document.querySelector("meta[name='stripe-public-key']").content;
   var stripe = Stripe(public_key);
   var elements = stripe.elements();
