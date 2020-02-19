@@ -5,15 +5,17 @@ one:
   first_name: MyString
   last_name: MyString
   country: MyString
-  email_address: MyString
+  email_address: user1@test.com
   number: 000000000001
   permalink: <%= SecureRandom.hex(20) %>
+  postal_code: 35660
 
 two:
   amount_cents: 1
   first_name: MyString
   last_name: MyString
   country: MyString
-  email_address: MyString
+  email_address: user1@test.com
   number: 000000000002
   permalink: <%= SecureRandom.hex(20) %>
+  postal_code: 35660

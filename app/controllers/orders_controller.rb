@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.amount_cents = Order::UNIT_PRICE_CENTS
-
+  
     respond_to do |format|
       if @order.save
         format.html { redirect_to order_permalink_url(@order.permalink), notice: 'Order was successfully created.' }
@@ -82,11 +82,6 @@ class OrdersController < ApplicationController
     end
 
     def set_payment_intent
-      Stripe.api_key = Rails.application.credentials.stripe[:secret_key]
-
-      @intent = Stripe::PaymentIntent.create({
-        amount: Order::UNIT_PRICE_CENTS,
-        currency: Order::CURRENCY,
-      })
+      @intent = Order.payment_intent
     end
 end
