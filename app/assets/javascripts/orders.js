@@ -55,7 +55,7 @@ document.addEventListener("turbolinks:load", function() {
         if (result.paymentIntent.status === 'succeeded') {
           var hiddenInput = document.createElement('input');
           hiddenInput.setAttribute('type', 'hidden');
-          hiddenInput.setAttribute('name', 'payment_intent');
+          hiddenInput.setAttribute('name', 'order[payment_intent_id]');
           hiddenInput.setAttribute('value', result.paymentIntent.id);
           form.appendChild(hiddenInput);
 

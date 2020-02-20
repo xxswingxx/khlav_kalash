@@ -11,6 +11,10 @@ class Order < ApplicationRecord
     Money.new(UNIT_PRICE_CENTS, CURRENCY)
   end
 
+  def payment_intent
+    PaymentIntent.find(payment_intent_id)
+  end
+
   private
     def set_defaults
       self.number = next_number

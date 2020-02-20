@@ -79,26 +79,17 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:amount_cents, :first_name, :last_name, :street_line_1, :street_line_2, :postal_code, :city, :region, :country, :email_address, :number, :permalink, :payment_intent)
+      params.require(:order).permit(:amount_cents, :first_name, :last_name, :street_line_1, :street_line_2, :postal_code, :city, :region, :country, :email_address, :number, :permalink, :payment_intent_id)
     end
 
     # We need a payment intent stripe object
     def set_payment_intent
-      Stripe.api_key = Rails.application.credentials.stripe[:secret_key]
-  
-      @intent = Stripe::PaymentIntent.create({
-        amount: Order::UNIT_PRICE_CENTS,
-        currency: Order::CURRENCY,
-      })
+      @intent = PaymentIntent.create
     end
 
     # We check against stripe that the payment has succeeded
     def check_payment_intent
-      Stripe.api_key = Rails.application.credentials.stripe[:secret_key]
-
-      intent = Stripe::PaymentIntent.retrieve(
-        params[:payment_intent]
-      )
+      intent = PaymentIntent.find(order_params[:payment_intent_id])
 
       if intent.status != 'succeeded'
         raise 'Payment failed'

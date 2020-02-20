@@ -21,7 +21,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
       'succeeded'
     end
 
-    Stripe::PaymentIntent.stub :retrieve, mock do
+    PaymentIntent.stub :find, mock do
       assert_difference('Order.count') do
         post orders_url, params: { order: { amount_cents: @order.amount_cents, country: @order.country, email_address: @order.email_address, first_name: @order.first_name, last_name: @order.last_name, number: @order.number, postal_code: @order.postal_code } }
       end
@@ -36,7 +36,7 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
       'not yet paid'
     end
 
-    Stripe::PaymentIntent.stub :retrieve, mock do
+    PaymentIntent.stub :find, mock do
       err = assert_raises(RuntimeError) do
         post orders_url, params: { order: { amount_cents: @order.amount_cents, country: @order.country, email_address: @order.email_address, first_name: @order.first_name, last_name: @order.last_name, number: @order.number, postal_code: @order.postal_code } }
       end
@@ -53,9 +53,9 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
       'succeeded'
     end
 
-    Stripe::PaymentIntent.stub :retrieve, mock do
+    PaymentIntent.stub :find, mock do
       err = assert_raises(ActiveRecord::RecordNotUnique) do
-        post orders_url, params: { order: { amount_cents: @order.amount_cents, country: @order.country, email_address: @order.email_address, first_name: @order.first_name, last_name: @order.last_name, number: @order.number, postal_code: @order.postal_code, payment_intent: @order2.payment_intent } }
+        post orders_url, params: { order: { amount_cents: @order.amount_cents, country: @order.country, email_address: @order.email_address, first_name: @order.first_name, last_name: @order.last_name, number: @order.number, postal_code: @order.postal_code, payment_intent_id: @order2.payment_intent_id } }
       end
     end
   end
