@@ -11,15 +11,6 @@ class Order < ApplicationRecord
     Money.new(UNIT_PRICE_CENTS, CURRENCY)
   end
 
-  def self.payment_intent
-    Stripe.api_key = Rails.application.credentials.stripe[:secret_key]
-
-    Stripe::PaymentIntent.create({
-      amount: Order::UNIT_PRICE_CENTS,
-      currency: Order::CURRENCY,
-    })
-  end
-
   private
     def set_defaults
       self.number = next_number

@@ -13,11 +13,13 @@ class CreateOrders < ActiveRecord::Migration[5.2]
       t.string :email_address
       t.string :number
       t.string :permalink
+      t.string :payment_intent
 
       t.timestamps
     end
 
     add_index :orders, :number, unique: true
     add_index :orders, :permalink, unique: true
+    add_index :orders, :payment_intent, unique: true
   end
 end

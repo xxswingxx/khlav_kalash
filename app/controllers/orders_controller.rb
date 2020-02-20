@@ -4,6 +4,7 @@ class OrdersController < ApplicationController
   before_action :http_authenticate, except: [:new, :create, :permalink]
   before_action :set_order, only: [:show, :edit, :update, :destroy]
   before_action :set_payment_intent, only: :new
+  before_action :check_payment_intent, only: :create
 
   # GET /orders
   # GET /orders.json
@@ -30,7 +31,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.amount_cents = Order::UNIT_PRICE_CENTS
-  
+
     respond_to do |format|
       if @order.save
         format.html { redirect_to order_permalink_url(@order.permalink), notice: 'Order was successfully created.' }
@@ -78,10 +79,29 @@ class OrdersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:amount_cents, :first_name, :last_name, :street_line_1, :street_line_2, :postal_code, :city, :region, :country, :email_address, :number, :permalink)
+      params.require(:order).permit(:amount_cents, :first_name, :last_name, :street_line_1, :street_line_2, :postal_code, :city, :region, :country, :email_address, :number, :permalink, :payment_intent)
     end
 
+    # We need a payment intent stripe object
     def set_payment_intent
-      @intent = Order.payment_intent
+      Stripe.api_key = Rails.application.credentials.stripe[:secret_key]
+  
+      @intent = Stripe::PaymentIntent.create({
+        amount: Order::UNIT_PRICE_CENTS,
+        currency: Order::CURRENCY,
+      })
+    end
+
+    # We check against stripe that the payment has succeeded
+    def check_payment_intent
+      Stripe.api_key = Rails.application.credentials.stripe[:secret_key]
+
+      intent = Stripe::PaymentIntent.retrieve(
+        params[:payment_intent]
+      )
+
+      if intent.status != 'succeeded'
+        raise 'Payment failed'
+      end      
     end
 end

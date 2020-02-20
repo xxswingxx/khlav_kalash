@@ -25,9 +25,11 @@ ActiveRecord::Schema.define(version: 2020_02_15_023624) do
     t.string "email_address"
     t.string "number"
     t.string "permalink"
+    t.string "payment_intent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["number"], name: "index_orders_on_number", unique: true
+    t.index ["payment_intent"], name: "index_orders_on_payment_intent", unique: true
     t.index ["permalink"], name: "index_orders_on_permalink", unique: true
   end
 
