@@ -19,3 +19,4 @@ two:
   number: 000000000002
   permalink: <%= SecureRandom.hex(20) %>
   postal_code: 35660
+  payment_intent: 'abcdef'
